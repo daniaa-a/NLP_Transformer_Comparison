@@ -1,0 +1,10 @@
+numpy
+pandas
+scikit-learn
+tqdm
+transformers
+tokenizers
+accelerate
+safetensors
+streamlit
+matplotlib
