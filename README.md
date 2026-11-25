@@ -1,343 +1,141 @@
-# Transformer: From Scratch vs. Pretrained Model
+# NLP Transformer Comparison
 
-A Natural Language Processing course project comparing a custom Transformer encoder implemented from scratch with a pretrained Transformer fine-tuned for binary sentiment analysis.
+This repository compares two PyTorch sentiment classifiers on the IMDb Large Movie Review Dataset:
 
-## 1. Project Overview
+- **Model A:** a custom Transformer encoder implemented with PyTorch attention and encoder layers.
+- **Model B:** pretrained `distilbert-base-uncased`, fine-tuned with a two-class classification head.
 
-This project compares two Transformer approaches for classifying IMDb movie reviews as positive or negative.
+The historical experiment is in `scratch/`, `pretrained/`, and the root `data_loader.py`. Its existing Model A checkpoint and metrics are historical artifacts. For the leakage-controlled comparison, use **`experiments/clean_v1/`**. The clean manifests group duplicate review text before splitting. Clean training has not been run; the checkpoint and test metric paths are created by training and evaluation.
 
-- **Model A:** A custom Transformer encoder implemented and trained from scratch using PyTorch.
-- **Model B:** A pretrained DistilBERT model fine-tuned using Hugging Face Transformers.
+Labels are `0 = Negative` and `1 = Positive`. The clean dataset has 19,824 training examples, 4,957 validation examples, and 24,801 official test examples. Counts differ from the original split because duplicate review texts were removed while keeping the official test set separate.
 
-Both models use the same dataset, data split, and held-out test examples to ensure a fair comparison.
+## Dataset setup
 
-The project also includes a Streamlit application that allows users to enter a movie review and compare both models' predictions.
-
-## 2. Project Objectives
-
-- Understand the internal architecture of Transformer models.
-- Implement attention and multi-head attention without built-in Transformer blocks.
-- Train a Transformer using randomly initialized weights.
-- Fine-tune a pretrained Transformer.
-- Compare both approaches using standard classification metrics.
-- Demonstrate both models through an interactive application.
-
-## 3. Dataset
-
-**Dataset:** IMDb Large Movie Review Dataset (aclImdb)
-
-**Source:** Stanford AI Lab
-
-https://ai.stanford.edu/~amaas/data/sentiment/
-
-The dataset contains 50,000 labeled movie reviews:
-
-- 25,000 training reviews.
-- 25,000 official test reviews.
-
-The dataset is balanced between positive and negative reviews.
-
-The additional unlabeled reviews in `train/unsup` are excluded.
-
-## 4. Data Splitting
-
-The original 25,000 labeled training reviews are divided into training and validation sets.
-
-| Split | Samples | Negative | Positive |
-|---|---:|---:|---:|
-| Training | 20,000 | 10,000 | 10,000 |
-| Validation | 5,000 | 2,500 | 2,500 |
-| Testing | 25,000 | 12,500 | 12,500 |
-
-The split uses stratified sampling with:
-
-- Random seed: 42
-- Validation proportion: 20%
-- Shuffling: Enabled
-- Stratification: Enabled
-
-Both models use the same `data_loader.py` implementation to guarantee identical splits.
-
-## 5. Models
-
-### Model A — Transformer from Scratch
-
-A custom encoder-only Transformer built using basic PyTorch layers.
-
-Implemented components:
-
-- Token embeddings
-- Positional embeddings
-- Scaled dot-product attention
-- Custom multi-head attention
-- Feed-forward layers
-- Residual connections
-- Layer normalization
-- Dropout
-- Padding masks
-- Masked mean pooling
-- Classification head
-
-No pretrained weights or built-in Transformer blocks are used.
-
-**Configuration:**
-
-| Parameter | Value |
-|---|---:|
-| Vocabulary size | 30,000 |
-| Maximum sequence length | 256 |
-| Embedding dimension | 128 |
-| Attention heads | 4 |
-| Hidden dimension | 256 |
-| Encoder layers | 3 |
-| Dropout | 0.1 |
-| Batch size | 16 |
-| Epochs | 6 |
-| Learning rate | 0.0003 |
-| Optimizer | AdamW |
-| Random seed | 42 |
-
-**Current measured test accuracy:** 84.16%
-
-### Model B — Pretrained DistilBERT
-
-A pretrained DistilBERT model fine-tuned for binary sentiment classification.
-
-**Checkpoint:** `distilbert-base-uncased`
-
-Fine-tuning configuration and final evaluation results will be added after training is completed.
-
-## 6. Evaluation Metrics
-
-Both models are evaluated using:
-
-- Accuracy
-- Precision
-- Recall
-- Macro-F1
-- Confusion matrix
-- Parameter count
-- Average inference latency
-- Training or fine-tuning time
-
-All final quality metrics are calculated on the same 25,000 held-out test reviews.
-
-## 7. Current Model A Results
-
-| Metric | Result |
-|---|---:|
-| Accuracy | 84.16% |
-| Precision | 84.18% |
-| Recall | 84.16% |
-| Macro-F1 | 84.16% |
-| Parameters | 4,270,722 |
-| Training time | 2.14 minutes |
-| Average inference latency | 0.2882 ms/review |
-
-The reported inference latency is from the current batched evaluation procedure. See the final experiment report for the exact measurement protocol.
-
-## 8. Project Structure
+Download the IMDb Large Movie Review Dataset (`aclImdb_v1.tar.gz`) from the [Stanford AI Lab dataset page](https://ai.stanford.edu/~amaas/data/sentiment/). Extract it from the repository root so the layout is:
 
 ```text
-NLP_Transformer_Comparison/
-│
-├── data/
-│   └── raw/
-│       └── aclImdb/
-│
-├── scratch/
-│   ├── model.py
-│   ├── tokenizer.py
-│   ├── train.py
-│   ├── evaluate.py
-│   └── checkpoints/
-│
-├── pretrained/
-│   ├── model.py
-│   ├── train.py
-│   ├── evaluate.py
-│   └── checkpoints/
-│
-├── app.py
-├── data_loader.py
-├── requirements.txt
-├── README.md
-└── .gitignore
+data/raw/aclImdb/
+├── train/
+│   ├── neg/
+│   ├── pos/
+│   └── unsup/
+└── test/
+    ├── neg/
+    └── pos/
 ```
 
-## 9. Installation
+The clean CSV manifests contain labels, hashes, and repository-relative paths to review files; they do not contain full review text. Keep the extracted dataset at `data/raw/aclImdb/`. `train/unsup` is never used. Raw data is excluded from Git and must be obtained separately on each computer. The source paths in the manifests are relative to the repository root, so run commands below from that root.
 
-### Requirements
+## Python and CUDA setup (Windows PowerShell)
 
-- Python 3.12
-- NVIDIA GPU with CUDA support recommended
-- PyTorch
-- Hugging Face Transformers
-- Streamlit
-
-### Clone the repository
-
-```bash
-git clone https://github.com/daniaa-a/NLP_Transformer_Comparison.git
-cd NLP_Transformer_Comparison
-```
-
-### Create a virtual environment
-
-Windows PowerShell:
+Use 64-bit Python 3.12. Create and activate a project environment:
 
 ```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
+py -3.12 -m venv .venv312
+.\.venv312\Scripts\Activate.ps1
+python -m pip install --upgrade pip
 ```
 
-### Install PyTorch
-
-Install a PyTorch build compatible with your system and CUDA version.
-
-For the development environment used for this project, the installation command was:
+Install the CUDA-enabled PyTorch build separately. The tested environment used PyTorch `2.12.1+cu130`:
 
 ```powershell
-python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cu132
+python -m pip install torch==2.12.1 torchvision==0.27.1 --index-url https://download.pytorch.org/whl/cu130
 ```
 
-If this CUDA build is unavailable for a different machine, use the official PyTorch installation selector:
+This is the CUDA 13.0 wheel index; a compatible NVIDIA driver is still required. If this exact wheel is unavailable for the teammate's hardware/driver, select a supported CUDA build using the [official PyTorch installer](https://pytorch.org/get-started/locally/). Install this before the remaining dependencies so pip does not substitute a CPU-only PyTorch build.
 
-https://pytorch.org/get-started/locally/
-
-### Install the remaining dependencies
+Install the versions recorded from the working `.venv312` environment:
 
 ```powershell
-pip install -r requirements.txt
+python -m pip install -r experiments/clean_v1/requirements.txt
+python -m pip check
 ```
 
-## 10. Dataset Setup
+Versions measured in the working environment (Python 3.12.0, Windows):
 
-Download the IMDb Large Movie Review Dataset from:
-
-https://ai.stanford.edu/~amaas/data/sentiment/
-
-Extract the dataset so that the directory structure is:
-
-```text
-data/
-└── raw/
-    └── aclImdb/
-        ├── train/
-        │   ├── pos/
-        │   ├── neg/
-        │   └── unsup/
-        └── test/
-            ├── pos/
-            └── neg/
-```
-
-The project loader reads labeled positive and negative reviews only.
-
-## 11. Training
-
-### Train Model A
-
-```powershell
-python scratch/train.py
-```
-
-### Evaluate Model A
-
-```powershell
-python scratch/evaluate.py
-```
-
-### Train Model B
-
-```powershell
-python pretrained/train.py
-```
-
-### Evaluate Model B
-
-```powershell
-python pretrained/evaluate.py
-```
-
-The pretrained checkpoint is downloaded through Hugging Face when first required, and the fine-tuned checkpoint is saved locally.
-
-Training should be performed before launching the application if the required model checkpoints are not already available.
-
-## 12. Run the Streamlit Application
-
-From the project root:
-
-```powershell
-streamlit run app.py
-```
-
-The application allows users to:
-
-- Enter movie reviews.
-- Obtain predictions from both models.
-- Compare predicted sentiments and confidence scores.
-- View inference latency.
-- Review test metrics and confusion matrices.
-- Explore example reviews.
-
-## 13. Hardware and Experiment Environment
-
-| Component | Configuration |
+| Package | Version |
 |---|---|
-| Operating system | Windows |
-| Python | 3.12 |
-| Deep learning framework | PyTorch |
-| GPU | NVIDIA GeForce RTX 4050 Laptop GPU |
-| CUDA | 13.2 |
+| PyTorch | `2.12.1+cu130` (CUDA build `13.0`) |
+| Transformers | `5.24.1` |
+| NumPy | `2.5.5` |
+| pandas | `3.1.1` |
+| scikit-learn | `1.9.1` |
+| tqdm | `4.70.1` |
+| tokenizers | `0.23.3` |
+| safetensors | `0.8.0` |
+| huggingface_hub | `2.4.0` |
+| matplotlib | `3.11.2` |
 
-## 14. Model Artifacts
+The clean_v1 requirements file pins the packages used by its scripts and model download; pandas and matplotlib are recorded from the existing project environment but are not needed by the clean training scripts.
 
-Model A artifacts:
+Verify PyTorch sees the GPU:
 
-```text
-scratch/checkpoints/
-├── best_model.pth
-├── tokenizer.json
-├── training_history.json
-└── test_metrics.json
+```powershell
+python -c "import torch; print('torch', torch.__version__); print('CUDA build', torch.version.cuda); print('CUDA available', torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'No CUDA GPU detected')"
 ```
 
-Model B artifacts:
+The root `requirements.txt` serves the older project files and includes an unpinned `torch` entry. For clean_v1, install its pinned requirements file above and preserve the already installed CUDA build.
 
-```text
-pretrained/checkpoints/
-├── best_model/
-├── training_history.json
-└── test_metrics.json
+## DistilBERT checkpoint
+
+Download the base model into the repository-relative directory expected by clean_v1. This downloads weights and tokenizer files; it does not train the model:
+
+```powershell
+hf download distilbert/distilbert-base-uncased --local-dir models/distilbert-base-uncased
 ```
 
-Large model files may be distributed through a documented download procedure rather than committed directly to GitHub.
+The clean training script loads this directory in offline/local-only mode. The model directory is ignored by Git because it contains large weight files. If the download command is not on `PATH`, use `python -m pip install huggingface_hub` or invoke `hf.exe` from `.venv312\Scripts`.
 
-## 15. Results and Discussion
+## Validate and run clean_v1
 
-The final comparison table will be completed after Model B is trained and evaluated.
+Run validation before training. It checks manifest hashes, source paths, counts, labels, and duplicate leakage:
 
-The discussion will cover:
+```powershell
+python experiments/clean_v1/validate_clean_dataset.py
+```
 
-- Accuracy and Macro-F1 differences.
-- Confusion matrix comparison.
-- Model parameter counts.
-- Training and fine-tuning time.
-- Inference latency.
-- Benefits of pretrained language representations.
-- Limitations of training from scratch on a limited dataset.
+Train and evaluate Model A (Scratch Transformer):
 
-Only experimentally measured results will be reported.
+```powershell
+python experiments/clean_v1/scratch/train.py
+python experiments/clean_v1/scratch/evaluate.py
+```
 
-## 16. References
+Train and evaluate Model B (DistilBERT):
 
-1. Maas, A. L., et al. (2011). Learning Word Vectors for Sentiment Analysis. ACL.
-2. IMDb Large Movie Review Dataset: https://ai.stanford.edu/~amaas/data/sentiment/
-3. Hugging Face DistilBERT: https://huggingface.co/distilbert-base-uncased
-4. PyTorch Documentation: https://pytorch.org/docs/
-5. Hugging Face Transformers Documentation: https://huggingface.co/docs/transformers/
+```powershell
+python experiments/clean_v1/pretrained/train.py --pretrained-checkpoint models/distilbert-base-uncased --micro-batch-size 8 --gradient-accumulation-steps 1
+python experiments/clean_v1/pretrained/evaluate.py
+```
 
-## 17. License and Dataset Terms
+The training scripts use seed 42, select the checkpoint using validation Macro-F1, and do not load the test manifest. Evaluation uses the held-out test set after training. Each training script refuses to overwrite a non-empty clean_v1 checkpoint directory; review or move an existing experiment output deliberately before starting a new run.
 
-The dataset is distributed by its original authors for research use. Consult the original dataset page and accompanying terms before redistribution. Do not include the raw dataset in the GitHub repository.
+Outputs are kept separate from historical artifacts:
+
+```text
+experiments/clean_v1/scratch/checkpoints/
+experiments/clean_v1/pretrained/checkpoints/
+```
+
+Each contains the best checkpoint, training history, configuration, and (after evaluation only) `test_metrics.json` as applicable. Do not expect metric files before completing training and evaluation.
+
+## GPU memory and run order
+
+The tested machine had an RTX 3050 Laptop GPU with 4 GB VRAM. DistilBERT at sequence length 256, physical batch 8, FP32 completed a forward/backward/optimizer-step smoke test; peak usage was 1,302 MiB allocated and 1,376 MiB reserved. Available memory varies with other applications. Run the two full trainings **sequentially**, never concurrently, so they do not compete for GPU memory.
+
+If DistilBERT reports CUDA out-of-memory, preserve effective batch size 8 with:
+
+```powershell
+python experiments/clean_v1/pretrained/train.py --pretrained-checkpoint models/distilbert-base-uncased --micro-batch-size 4 --gradient-accumulation-steps 2
+```
+
+If that still does not fit, try `--fp16` and then `--gradient-checkpointing` (either or both). Scratch training uses batch size 16 and has its own CUDA out-of-memory message; do not run the experiments at the same time.
+
+## References
+
+- [IMDb Large Movie Review Dataset](https://ai.stanford.edu/~amaas/data/sentiment/)
+- [DistilBERT model](https://huggingface.co/distilbert/distilbert-base-uncased)
+- [PyTorch installation selector](https://pytorch.org/get-started/locally/)
+- [Hugging Face download CLI](https://huggingface.co/docs/huggingface_hub/en/guides/cli)
+
+Do not commit the raw IMDb dataset, local model weights, virtual environments, or temporary caches. The dataset is distributed by its authors; consult its source page and terms.

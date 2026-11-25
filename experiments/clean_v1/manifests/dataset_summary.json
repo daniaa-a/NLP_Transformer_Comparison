@@ -1,0 +1,56 @@
+{
+  "dataset_version": "clean_v1",
+  "normalization": "Unicode NFKC, casefold, collapse all whitespace; original text is unchanged in source files.",
+  "hash_algorithm": "SHA-256 of UTF-8 normalized text",
+  "seed": 42,
+  "validation_fraction": 0.2,
+  "split_strategy": "unique original-train groups stratified 80/20; unique official-test groups kept isolated",
+  "original_labeled_file_counts": {
+    "train": 25000,
+    "official_test": 25000
+  },
+  "unique_source_counts": {
+    "original_train": 24904,
+    "official_test": 24801,
+    "shared_train_test_texts": 123,
+    "global_unique_texts": 49582,
+    "train_eligible_after_test_isolation": 24781
+  },
+  "global_unique_class_counts": {
+    "negative": 24698,
+    "positive": 24884
+  },
+  "splits": {
+    "train": {
+      "samples": 19824,
+      "negative": 9869,
+      "positive": 9955,
+      "ratio_of_train_eligible_or_official_test": 0.7999677172026957
+    },
+    "validation": {
+      "samples": 4957,
+      "negative": 2468,
+      "positive": 2489,
+      "ratio_of_train_eligible_or_official_test": 0.2000322827973044
+    },
+    "test": {
+      "samples": 24801,
+      "negative": 12361,
+      "positive": 12440,
+      "ratio_of_train_eligible_or_official_test": 1.0
+    }
+  },
+  "overlap_counts": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "conflicting_label_groups": 0,
+  "duplicate_group_count": 406,
+  "duplicate_file_instances_in_duplicate_groups": 824,
+  "manifest_sha256": {
+    "train": "b6993f416b753e62ebf1c2dc304bfdea2a25366a0ad8e9424e9e74502c033140",
+    "validation": "bf4a228fc67000384d9864e3b7c4d81f79facdc0baf0f71fb16c3f45bf10ceba",
+    "test": "be25f9d0c1ecd276b7974f5f12e475405dd81173f31c8e347eb30db568933d6d"
+  }
+}
