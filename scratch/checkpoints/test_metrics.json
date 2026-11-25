@@ -1,0 +1,20 @@
+{
+    "model": "Scratch Transformer",
+    "accuracy": 0.84164,
+    "precision_macro": 0.8418152040824305,
+    "recall_macro": 0.8416399999999999,
+    "macro_f1": 0.8416197047688564,
+    "confusion_matrix": [
+        [
+            10379,
+            2121
+        ],
+        [
+            1838,
+            10662
+        ]
+    ],
+    "average_inference_latency_ms_per_review": 0.2881962910667062,
+    "parameters": 4270722,
+    "test_samples": 25000
+}
