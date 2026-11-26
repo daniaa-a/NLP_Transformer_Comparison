@@ -33,7 +33,11 @@ EXPECTED_LABELS = {
 
 
 def sha256_file(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    # Git's core.autocrlf may change checkout line endings without changing the
+    # manifest content. Hash the canonical LF representation recorded in the
+    # dataset summary so validation is portable across platforms.
+    content = path.read_bytes().replace(b"\r\n", b"\n")
+    return hashlib.sha256(content).hexdigest()
 
 
 def expected_manifest_rows():

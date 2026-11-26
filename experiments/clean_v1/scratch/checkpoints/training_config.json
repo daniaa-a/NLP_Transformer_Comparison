@@ -1,0 +1,32 @@
+{
+  "experiment": "clean_v1",
+  "model": "Scratch Transformer",
+  "seed": 42,
+  "device": "cuda",
+  "python_version": "3.12.10",
+  "pytorch_version": "2.14.1+cu126",
+  "numpy_version": "2.5.5",
+  "sklearn_version": "1.9.1",
+  "vocab_size_limit": 30000,
+  "actual_vocab_size": 30000,
+  "max_length": 256,
+  "embedding_dim": 128,
+  "num_heads": 4,
+  "hidden_dim": 256,
+  "num_layers": 3,
+  "dropout": 0.1,
+  "batch_size": 16,
+  "epochs": 6,
+  "optimizer": "AdamW",
+  "learning_rate": 0.0003,
+  "weight_decay": 0.01,
+  "loss": "CrossEntropyLoss",
+  "best_checkpoint_metric": "validation_macro_f1",
+  "train_samples": 19824,
+  "validation_samples": 4957,
+  "manifest_sha256": {
+    "train": "b6993f416b753e62ebf1c2dc304bfdea2a25366a0ad8e9424e9e74502c033140",
+    "validation": "bf4a228fc67000384d9864e3b7c4d81f79facdc0baf0f71fb16c3f45bf10ceba",
+    "test": "be25f9d0c1ecd276b7974f5f12e475405dd81173f31c8e347eb30db568933d6d"
+  }
+}

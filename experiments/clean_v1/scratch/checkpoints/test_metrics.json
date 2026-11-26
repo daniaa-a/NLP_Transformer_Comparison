@@ -1,0 +1,60 @@
+{
+  "model": "Scratch Transformer",
+  "dataset_version": "clean_v1",
+  "manifest_sha256": {
+    "train": "b6993f416b753e62ebf1c2dc304bfdea2a25366a0ad8e9424e9e74502c033140",
+    "validation": "bf4a228fc67000384d9864e3b7c4d81f79facdc0baf0f71fb16c3f45bf10ceba",
+    "test": "be25f9d0c1ecd276b7974f5f12e475405dd81173f31c8e347eb30db568933d6d"
+  },
+  "accuracy": 0.8355711463247449,
+  "precision_macro": 0.8369781001214527,
+  "recall_macro": 0.8356737694871147,
+  "macro_f1": 0.8354273899469115,
+  "confusion_matrix": [
+    [
+      10728,
+      1633
+    ],
+    [
+      2445,
+      9995
+    ]
+  ],
+  "classification_report": {
+    "Negative": {
+      "precision": 0.8143930767478934,
+      "recall": 0.867890947334358,
+      "f1-score": 0.8402913762042766,
+      "support": 12361.0
+    },
+    "Positive": {
+      "precision": 0.8595631234950121,
+      "recall": 0.8034565916398714,
+      "f1-score": 0.8305634036895463,
+      "support": 12440.0
+    },
+    "accuracy": 0.8355711463247449,
+    "macro avg": {
+      "precision": 0.8369781001214527,
+      "recall": 0.8356737694871147,
+      "f1-score": 0.8354273899469115,
+      "support": 24801.0
+    },
+    "weighted avg": {
+      "precision": 0.8370500414482748,
+      "recall": 0.8355711463247449,
+      "f1-score": 0.8354118964218789,
+      "support": 24801.0
+    }
+  },
+  "parameters": 4270722,
+  "trainable_parameters": 4270722,
+  "test_samples": 24801,
+  "device": "cuda",
+  "batch_size": 8,
+  "total_forward_pass_time_seconds": 12.590907297097147,
+  "batch_averaged_latency_ms_per_review": 0.5076774040198841,
+  "batch_size_1_total_forward_pass_time_seconds": 114.58210710436106,
+  "batch_size_1_latency_ms_per_review": 4.620059961467725,
+  "timing_method": "Tokenization/encoding excluded; one warm-up; perf_counter around model forwards; CUDA synchronized before/after each timed pass."
+}

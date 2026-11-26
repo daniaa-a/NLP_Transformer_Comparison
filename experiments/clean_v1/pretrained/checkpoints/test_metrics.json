@@ -1,0 +1,61 @@
+{
+  "model": "DistilBERT",
+  "dataset_version": "clean_v1",
+  "pretrained_checkpoint": "distilbert-base-uncased",
+  "manifest_sha256": {
+    "train": "b6993f416b753e62ebf1c2dc304bfdea2a25366a0ad8e9424e9e74502c033140",
+    "validation": "bf4a228fc67000384d9864e3b7c4d81f79facdc0baf0f71fb16c3f45bf10ceba",
+    "test": "be25f9d0c1ecd276b7974f5f12e475405dd81173f31c8e347eb30db568933d6d"
+  },
+  "accuracy": 0.9035925970726987,
+  "precision_macro": 0.9043350068479371,
+  "recall_macro": 0.9036618743839859,
+  "macro_f1": 0.9035582556424715,
+  "confusion_matrix": [
+    [
+      11439,
+      922
+    ],
+    [
+      1469,
+      10971
+    ]
+  ],
+  "classification_report": {
+    "Negative": {
+      "precision": 0.8861946079950418,
+      "recall": 0.9254105654882291,
+      "f1-score": 0.9053781313071352,
+      "support": 12361.0
+    },
+    "Positive": {
+      "precision": 0.9224754057008324,
+      "recall": 0.8819131832797428,
+      "f1-score": 0.9017383799778079,
+      "support": 12440.0
+    },
+    "accuracy": 0.9035925970726987,
+    "macro avg": {
+      "precision": 0.9043350068479371,
+      "recall": 0.9036618743839859,
+      "f1-score": 0.9035582556424715,
+      "support": 24801.0
+    },
+    "weighted avg": {
+      "precision": 0.9043927904659114,
+      "recall": 0.9035925970726987,
+      "f1-score": 0.9035524586916426,
+      "support": 24801.0
+    }
+  },
+  "parameters": 66955010,
+  "trainable_parameters": 66955010,
+  "test_samples": 24801,
+  "device": "cuda",
+  "inference_batch_size": 8,
+  "total_forward_pass_time_seconds": 166.00086870137602,
+  "batch_averaged_latency_ms_per_review": 6.693313523703722,
+  "batch_size_1_total_forward_pass_time_seconds": 237.97641860926524,
+  "batch_size_1_latency_ms_per_review": 9.595436418259958,
+  "timing_method": "Tokenization excluded from timed forwards; one warm-up; perf_counter timing; CUDA synchronized before and after every timed forward batch/review."
+}

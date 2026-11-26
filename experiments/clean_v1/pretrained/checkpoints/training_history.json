@@ -1,0 +1,86 @@
+{
+  "epochs": [
+    {
+      "epoch": 1,
+      "train_loss": 0.28796050603981815,
+      "train_accuracy": 0.875453995157385,
+      "train_macro_f1": 0.8754535131228902,
+      "validation_loss": 0.2618820188352483,
+      "validation_accuracy": 0.8955013112769821,
+      "validation_precision": 0.8968030902252914,
+      "validation_recall": 0.8956242149412033,
+      "validation_macro_f1": 0.8954348192946928,
+      "epoch_duration_seconds": 555.600153000094
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.15690969232207838,
+      "train_accuracy": 0.9420399515738499,
+      "train_macro_f1": 0.9420380010266789,
+      "validation_loss": 0.2640428326310789,
+      "validation_accuracy": 0.8971151906394997,
+      "validation_precision": 0.8980783806897065,
+      "validation_recall": 0.8972210302315602,
+      "validation_macro_f1": 0.8970690071310311,
+      "epoch_duration_seconds": 553.8832340000663
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.07572610794933106,
+      "train_accuracy": 0.9750302663438256,
+      "train_macro_f1": 0.9750299978942547,
+      "validation_loss": 0.3469869121412198,
+      "validation_accuracy": 0.8963082509582408,
+      "validation_precision": 0.8965856298753965,
+      "validation_recall": 0.8962534015144756,
+      "validation_macro_f1": 0.8962791716330905,
+      "epoch_duration_seconds": 546.3709919999819
+    }
+  ],
+  "total_training_time_seconds": 1657.355388800148,
+  "best_epoch": 2,
+  "best_validation_macro_f1": 0.8970690071310311,
+  "training_config": {
+    "experiment": "clean_v1",
+    "model": "DistilBERT",
+    "pretrained_checkpoint": "distilbert-base-uncased",
+    "pretrained_checkpoint_path": "C:\\Users\\samae\\OneDrive\\Desktop\\NLP_Transformer_Comparison\\models\\distilbert-base-uncased",
+    "num_labels": 2,
+    "id2label": {
+      "0": "NEGATIVE",
+      "1": "POSITIVE"
+    },
+    "label2id": {
+      "NEGATIVE": 0,
+      "POSITIVE": 1
+    },
+    "max_length": 256,
+    "effective_batch_size": 8,
+    "physical_micro_batch_size": 8,
+    "gradient_accumulation_steps": 1,
+    "mixed_precision_fp16": false,
+    "gradient_checkpointing": false,
+    "epochs": 3,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "optimizer": "AdamW",
+    "seed": 42,
+    "best_checkpoint_metric": "validation_macro_f1",
+    "device": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "cuda_runtime": "12.6",
+    "python_version": "3.12.10",
+    "pytorch_version": "2.14.1+cu126",
+    "transformers_version": "5.24.1",
+    "numpy_version": "2.5.5",
+    "train_samples": 19824,
+    "validation_samples": 4957,
+    "manifest_sha256": {
+      "train": "b6993f416b753e62ebf1c2dc304bfdea2a25366a0ad8e9424e9e74502c033140",
+      "validation": "bf4a228fc67000384d9864e3b7c4d81f79facdc0baf0f71fb16c3f45bf10ceba",
+      "test": "be25f9d0c1ecd276b7974f5f12e475405dd81173f31c8e347eb30db568933d6d"
+    },
+    "parameters": 66955010,
+    "trainable_parameters": 66955010
+  }
+}
